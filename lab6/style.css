@@ -1,0 +1,253 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+    color: #333;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #3498db;
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.output {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    border-left: 3px solid #3498db;
+}
+
+/* Задание 1: Стили для select */
+#musicGenre {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+    font-size: 16px;
+}
+
+/* Задание 2: Стили для плейсхолдера */
+.placeholder {
+    color: #3498db;
+    font-style: italic;
+}
+
+#placeholderInput {
+    padding: 8px 12px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.hint {
+    position: absolute;
+    color: #7f8c8d;
+    font-size: 12px;
+    margin-top: -18px;
+    background-color: #ecf0f1;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+/* Задание 3: Стили для редактируемого div */
+#editableDiv {
+    width: 300px;
+    min-height: 100px;
+    border: 1px solid #bdc3c7;
+    padding: 15px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+#editableDiv:hover {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52,152,219,0.3);
+}
+
+/* Задание 4: Стили для редактируемой таблицы */
+#editableTable {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 15px;
+}
+
+#editableTable td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    position: relative;
+    background-color: white;
+    transition: background-color 0.2s;
+}
+
+#editableTable td:hover {
+    background-color: #f8f9fa;
+}
+
+#editableTable td textarea {
+    width: 100%;
+    height: 80px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #bdc3c7;
+    border-radius: 3px;
+    resize: none;
+    font-family: Arial, sans-serif;
+}
+
+.edit-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.edit-buttons button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.edit-buttons button:first-child {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.edit-buttons button:first-child:hover {
+    background-color: #27ae60;
+}
+
+.edit-buttons button:last-child {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.edit-buttons button:last-child:hover {
+    background-color: #c0392b;
+}
+
+/* Задание 5: Стили для модального окна */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#promptMessage {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+#promptInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+#promptCancelBtn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+#promptCancelBtn:hover {
+    background-color: #c0392b;
+}
+
+#promptOkBtn {
+    background-color: #2ecc71;
+    color: white;
+}
+
+#promptOkBtn:hover {
+    background-color: #27ae60;
+}
+
+/* Кнопка вызова промпта */
+#showPromptBtn {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+#showPromptBtn:hover {
+    background-color: #2980b9;
+}
+
+/* Стили для вывода результата промпта */
+#promptResult {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 4px;
+    font-weight: bold;
+}

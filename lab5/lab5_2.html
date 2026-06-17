@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Дерево из объекта</title>
+    <style>
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Дерево данных</h2>
+    <div id="container"></div>
+
+    <script>
+        // Данные
+        let data = {
+            "Рыбы": {
+                "форель": {},
+                "лосось": {}
+            },
+            "Деревья": {
+                "Огромные": {
+                    "секвойя": {},
+                    "дуб": {}
+                },
+                "Цветковые": {
+                    "яблоня": {},
+                    "магнолия": {}
+                }
+            }
+        };
+
+        // Функция создания дерева
+        function createTree(container, data) {
+            let ul = document.createElement('ul');
+
+            for (let key in data) {
+                let li = document.createElement('li');
+                li.textContent = key;
+
+                if (Object.keys(data[key]).length > 0) {
+                    createTree(li, data[key]);
+                }
+
+                ul.appendChild(li);
+            }
+
+            container.appendChild(ul);
+        }
+
+        // Запускаем
+        let container = document.getElementById('container');
+        createTree(container, data);
+    </script>
+</body>
+</html>
