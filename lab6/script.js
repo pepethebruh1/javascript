@@ -56,40 +56,38 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 // ================== Задание 3: Редактируемый div ==================
-(function() {
-    const div = document.getElementById('editableDiv');
-    let textarea;
+let one = document.querySelector("#textarea");
+let oldContent = "";
+if (localStorage.getItem("content") !== null) {
+    let content = localStorage.getItem("content");
+    one.innerHTML = content;
+} 
 
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.key === 'e') {
-            e.preventDefault();
-            // Создаем textarea для редактирования
-            textarea = document.createElement('textarea');
-            textarea.value = div.textContent;
-            textarea.style.width = div.offsetWidth + 'px';
-            textarea.style.height = div.offsetHeight + 'px';
-            textarea.className = 'edit-area';
-            
-            // Заменяем div на textarea
-            div.replaceWith(textarea);
-            textarea.focus();
-            
-        } else if (e.ctrlKey && e.key === 's') {
-            e.preventDefault();
-            if (textarea) {
-                // Сохраняем изменения
-                div.textContent = textarea.value;
-                textarea.replaceWith(div);
-            }
-        } else if (e.key === 'Escape') {
-            if (textarea) {
-                // Отмена редактирования
-                textarea.replaceWith(div);
-            }
-        }
-    });
-})();
-
+document.addEventListener("keydown", (ev) => {
+    if (ev.ctrlKey == true && ev.code == "KeyE") {
+        ev.preventDefault();
+        let content = one.innerHTML.replaceAll("<br>", "\n");
+        one.outerHTML = "<textarea id='textarea'>" + content + "</textarea>";
+        one = document.querySelector("#textarea");
+    }
+})
+document.addEventListener("keydown", (ev) => {
+    if (ev.ctrlKey == true && ev.code == "KeyS") {
+        ev.preventDefault();
+        let content = one.value.replaceAll("\n", "<br>");
+        oldContent = content;
+        one.outerHTML = "<div id='textarea'>" + content + "</div>";
+        one = document.querySelector("#textarea");
+        localStorage.setItem("content", content);
+    }
+})
+document.addEventListener("keydown", (ev) => {
+    if (ev.code == "Escape") {
+        ev.preventDefault();
+        one.outerHTML = "<div id='textarea'>" + oldContent + "</div>";
+        one = document.querySelector("#textarea");
+    }
+})
 // ================== Задание 4: Редактируемая таблица ==================
 (function() {
     const table = document.getElementById('editableTable');
