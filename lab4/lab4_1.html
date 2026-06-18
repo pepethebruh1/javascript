@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторная работа №4</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Лабораторная работа №4</h1>
+        <div class="info">Откройте консоль (F12) для просмотра результатов</div>
+    </div>
+
+    <script type="module">
+        import {
+            Book,
+            isEmpty,
+            addClassMethods,
+            getSecondsToday,
+            formatDate
+        } from './lab4.js';
+
+        const book1 = new Book("Мастер и Маргарита", 1967, 550);
+        book1.show();
+
+        const book2 = new Book("Тихий Дон", 1940, 480);
+        console.log(`До изменения: ${book2.title}, ${book2.pubYear}, ${book2.price}`);
+
+        book2.title = "Доктор Живаго";
+        book2.pubYear = 1957;
+        book2.price = 620;
+        console.log(`После изменения: ${book2.title}, ${book2.pubYear}, ${book2.price}`);
+
+        try {
+            book2.title = "";
+        } catch(e) {
+            console.log(e.message);
+        }
+
+        try {
+            book2.pubYear = -1957;
+        } catch(e) {
+            console.log(e.message);
+        }
+
+        try {
+            book2.price = -100;
+        } catch(e) {
+            console.log(e.message);
+        }
+
+        const books = [
+            new Book("Евгений Онегин", 1833, 350),
+            new Book("Герой нашего времени", 1840, 320),
+            new Book("Мертвые души", 1842, 400)
+        ];
+
+        console.log("До сортировки:");
+        books.forEach(book => console.log(`${book.title} - ${book.pubYear}`));
+
+        books.sort(Book.compare);
+
+        console.log("После сортировки:");
+        books.forEach(book => console.log(`${book.title} - ${book.pubYear}`));
+
+        console.log(isEmpty({}));
+        console.log(isEmpty({ [Symbol()]: true }));
+        console.log(isEmpty(Object.defineProperty({}, 'name', { value: 'John' })));
+
+        let obj = { className: 'open menu' };
+        obj = addClassMethods(obj);
+
+        obj.addClass('new').addClass('open').addClass('active');
+        console.log(obj.className);
+
+        obj.removeClass('menu').removeClass('active');
+        console.log(obj.className);
+
+        const testObj = {
+            name: "Литература",
+            author: {
+                name: "Пушкин",
+                year: 1799
+            }
+        };
+
+        const json = JSON.stringify(testObj, null, 2);
+        console.log(json);
+
+        const obj2 = JSON.parse(json);
+        console.log(JSON.stringify(testObj) === JSON.stringify(obj2));
+
+        console.log(getSecondsToday());
+
+        console.log(formatDate(new Date()));
+    </script>
+</body>
+</html>
