@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>textarea</title>
+</head>
+
+<body>
+    
+    <div id="changeable" tabindex="0" style="outline: none;">Нажмите Ctrl+E для редактирования данного текста.</div>
+
+    <script>
+        'use strict';
+
+        let div = document.getElementById('changeable');
+        let textarea = null;
+
+        const savedValue = localStorage.getItem('editableText');
+        if (savedValue !== null) {
+            div.innerHTML = savedValue;
+        }
+
+        document.onkeydown = function (event) {
+
+            let key = event.key.toLowerCase(); 
+
+            if (event.ctrlKey && key === 'e') {
+                event.preventDefault();
+                if (!textarea) { 
+                    textarea = document.createElement('textarea');
+
+                    textarea.value = div.innerHTML;
+                    div.replaceWith(textarea);
+                    textarea.focus();
+                }
+            }
+
+            else if (event.ctrlKey && key === 's') {
+                event.preventDefault();
+                if (textarea) {
+
+                    div.innerHTML = textarea.value;
+                    
+                    localStorage.setItem('editableText', textarea.value);
+
+                    textarea.replaceWith(div);
+                    textarea = null;
+                    div.focus();
+                }
+            }
+            else if (key === 'escape') {
+                if (textarea) {
+                    textarea.replaceWith(div);
+                    textarea = null;
+                    div.focus();
+                }
+            }
+        };
+    </script>
+
+</body>
+
+</html>

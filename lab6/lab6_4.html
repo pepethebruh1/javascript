@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактируемая таблица</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        td textarea {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        .edit-buttons {
+            margin-top: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table id="editable-table">
+        <tr>
+            <th>Колонка 1</th>
+            <th>Колонка 2</th>
+            <th>Колонка 3</th>
+        </tr>
+        <tr>
+            <td data-id="cell-1">Клетка 1</td>
+            <td data-id="cell-2">Клетка 2</td>
+            <td data-id="cell-3">Клетка 3</td>
+        </tr>
+        <tr>
+            <td data-id="cell-4">Клетка 4</td>
+            <td data-id="cell-5">Клетка 5</td>
+            <td data-id="cell-6">Клетка 6</td>
+        </tr>
+    </table>
+
+    <script>
+        'use strict';
+
+        // Инициализация таблицы при загрузке страницы
+        document.addEventListener('DOMContentLoaded', restoreTableData);
+
+        /**
+         * Восстанавливает сохраненные значения ячеек из sessionStorage.
+         * @returns {void}
+         */
+        function restoreTableData() {
+            const cells = document.querySelectorAll('#editable-table td');
+            cells.forEach(td => {
+                const cellId = td.getAttribute('data-id');
+                const savedValue = sessionStorage.getItem(cellId);
+                if (savedValue !== null) {
+                    td.innerHTML = savedValue;
+                }
+            });
+        }
+
+        /**
+         * Делегирование события клика на таблицу.
+         * Переводит ячейку в режим редактирования при клике на неё.
+         * @listens MouseEvent
+         */
+        document.getElementById('editable-table').addEventListener('click', function (event) {
+            let target = event.target;
+
+            if (target.tagName === 'TEXTAREA') 
+                return;
+            if (document.querySelector('td.editing')) 
+                return;
+
+            while (target && target !== this) {
+                if (target.tagName === 'TD') {
+                    startEditing(target);
+                    return;
+                }
+                target = target.parentNode;
+            }
+        });
+
+        /**
+         * Переводит выбранную ячейку таблицы в режим редактирования.
+         * Заменяет текст внутри ячейки на текстовое поле (textarea) и кнопки управления.
+         * Сохраняет исходное значение в атрибут 'original-text'.
+         *
+         * @param {HTMLTableCellElement} td - Элемент ячейки таблицы, которую нужно редактировать.
+         * @returns {void}
+         */
+        function startEditing(td) {
+            td.classList.add('editing');
+
+            let currentText = td.innerHTML;
+            td.setAttribute('original-text', currentText);
+            
+
+            td.innerHTML = `<textarea>${currentText}</textarea>
+                  <div class="edit-buttons">
+                    <button class="ok-button">OK</button>
+                    <button class="cancel-button">ОТМЕНА</button>
+                  </div>`;
+
+            td.querySelector('textarea').focus();
+
+            td.querySelector('.ok-button').addEventListener('click', function () {
+                finishEditing(td, true);
+            });
+
+            td.querySelector('.cancel-button').addEventListener('click', function () {
+                finishEditing(td, false);
+            });
+        }
+
+        /**
+         * Завершает режим редактирования ячейки таблицы.
+         * Сохраняет внесенные изменения или восстанавливает исходный текст.
+         * Записывает новое значение в sessionStorage в случае успешного сохранения.
+         * Убирает из ячейки элементы формы (textarea и кнопки).
+         *
+         * @param {HTMLTableCellElement} td - Элемент редактируемой ячейки таблицы.
+         * @param {boolean} isSave - Флаг завершения: true для сохранения изменений, false для отмены.
+         * @returns {void}
+         */
+        function finishEditing(td, isSave) {
+            let textarea = td.querySelector('textarea');
+            let originalText = td.getAttribute('original-text');
+            let cellId = td.getAttribute('data-id');
+
+            if (isSave) {
+                let newValue = textarea.value;
+                td.innerHTML = newValue;
+                if (cellId) {
+                    sessionStorage.setItem(cellId, newValue);
+                }
+            } else {
+                td.innerHTML = originalText;
+            }
+
+            td.classList.remove('editing');
+        }
+    </script>
+
+</body>
+
+</html>
